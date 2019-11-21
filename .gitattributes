@@ -1,63 +1,99 @@
-###############################################################################
-# Set default behavior to automatically normalize line endings.
-###############################################################################
-* text=auto
+10. Вычислить вектор сумм отрицательных чисел в каждой строке. 
 
-###############################################################################
-# Set default behavior for command prompt diff.
-#
-# This is need for earlier builds of msysgit that does not have it on by
-# default for csharp files.
-# Note: This is only used by command line
-###############################################################################
-#*.cs     diff=csharp
+Входные величины	Выходные величины
+Имя	Назначение	Диапазон	Имя	Назначение	Диапазон
+B	Заданный вектор	Массив целых чисел 	A	Вектор сумм отрицательных чисел	Отрицательный числа или текст
+2. Таблица спецификаций:
 
-###############################################################################
-# Set the merge driver for project and solution files
-#
-# Merging from the command prompt will add diff markers to the files if there
-# are conflicts (Merging from VS is not affected by the settings below, in VS
-# the diff markers are never inserted). Diff markers may cause the following 
-# file extensions to fail to load in VS. An alternative would be to treat
-# these files as binary and thus will always conflict and require user
-# intervention with every merge. To do so, just uncomment the entries below
-###############################################################################
-#*.sln       merge=binary
-#*.csproj    merge=binary
-#*.vbproj    merge=binary
-#*.vcxproj   merge=binary
-#*.vcproj    merge=binary
-#*.dbproj    merge=binary
-#*.fsproj    merge=binary
-#*.lsproj    merge=binary
-#*.wixproj   merge=binary
-#*.modelproj merge=binary
-#*.sqlproj   merge=binary
-#*.wwaproj   merge=binary
+2. Словесное описание алгоритма:	
+1. Ввод i, j, N,  M, s.
+2. Объявляем массив В размерности N*M.
+3. ПОКА  i< N ВЫПОЛНИТЬ
+    3.1. ПОКА  j< M ВЫПОЛНИТЬ
+    3.1.1. Вывод(“Введите число массива”);
+    3.1.2. ПОКА (Ввод Аi, j)  не целое число ВЫПОЛНИТЬ
+        3.1.2.1. Вывод(“Неверный ввод, введите правильное число”)
+    3.1.3. j = j  + 1;
+    ПОКА ВСЕ
+    3.2. i = i  + 1;
+    ПОКА ВСЕ
+4. i, j = 0;
+5. s = 0;
+6. ПОКА  i< M ВЫПОЛНИТЬ
+    6.1. ПОКА  j< N ВЫПОЛНИТЬ
+        6.1.1. ЕСЛИ (Аi, j < 0) ТО 
+            6.1.1.1. s = s + Аi, j.
+        ЕСЛИ ВСЕ
+    6.2. j = j  + 1;
+    ПОКА ВСЕ
+6.3. i = i + 1;
+ПОКА ВСЕ
+6.4. i, j = 0;
+6. Вывод Аi, j.
 
-###############################################################################
-# behavior for image files
-#
-# image files are treated as binary by default.
-###############################################################################
-#*.jpg   binary
-#*.png   binary
-#*.gif   binary
 
-###############################################################################
-# diff behavior for common document formats
-# 
-# Convert binary document formats to text before diffing them. This feature
-# is only available from the command line. Turn it on by uncommenting the 
-# entries below.
-###############################################################################
-#*.doc   diff=astextplain
-#*.DOC   diff=astextplain
-#*.docx  diff=astextplain
-#*.DOCX  diff=astextplain
-#*.dot   diff=astextplain
-#*.DOT   diff=astextplain
-#*.pdf   diff=astextplain
-#*.PDF   diff=astextplain
-#*.rtf   diff=astextplain
-#*.RTF   diff=astextplain
+
+3. Таблица тестов:
+	
+Номер теста	Назначение теста	Входные данные	Выходные данные
+1	Проверка счетчика суммы 	N=5 	sum= 65.
+res = 3.
+2	Проверка счетчика суммы и количества.	m1=1
+m2 =2
+m3 =3
+m4 =4
+m5 =5
+m6  =55
+m7 =70
+m8  = 7
+m9  =8	sum= 60.
+res = 2.
+
+4. Текст программы:
+
+	     int N, M;
+            Console.Write("Введите число строк: ");
+            string input = Console.ReadLine();
+            if (Int32.TryParse(input, out N))
+            {
+                Console.Write("Введите число столбцов: ");
+                string input1 = Console.ReadLine();
+                if (Int32.TryParse(input1, out M))
+                {
+                    int[,] B = new int[N, M];
+                    int[] A = new int[M];
+                    Random ran = new Random();
+                    for (int i = 0; i < N; i++)
+                    {
+                        for (int j = 0; j < M; j++)
+                        {
+                            Console.WriteLine($"Введите число [{i + 1},{j + 1}]: ");
+                            while (Int32.TryParse(Console.ReadLine(), out B[i,j]) == false) { Console.WriteLine("Неверный ввод, введите правильное число"); }
+                        }
+                    }
+                    for (int i = 0; i < N; i++)
+                    {
+                        for (int j = 0; j < M; j++)
+                        {
+                            Console.Write("{0}  ", B[i, j]);
+                        }
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine();
+                    int s = 0;
+                    for (int i = 0; i < M; i++)
+                    {
+                        for (int j = 0; j < N; j++)
+                        {
+                            if (B[i, j] < 0) { s = s + B[i, j]; }
+                        }      
+                        A[i] = s;
+                        s = 0;
+                    }
+                    Console.WriteLine("Новый вектор");
+                    for (int i = 0; i < M; i++) { if (A[i] == 0) { Console.WriteLine($" В строке {i} нет отрицательных чисел "); } else { Console.WriteLine($" {A[i]} "); } }
+                }
+                else { Console.WriteLine("Некорректный ввод"); }
+            }
+            else { Console.WriteLine("Некорректный ввод"); }
+            Console.ReadLine();
